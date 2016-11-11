@@ -1,7 +1,7 @@
 var state = {
 	questArray: [],
 	curQuestion: 0,
-	numCorrect: 0
+	numCorrect: 0,
 };
 
 state.questArray = [
@@ -9,7 +9,6 @@ state.questArray = [
 	question: "The order of sharps as they appear for scales is:",
 	answers: ['FCGDAEB', 'GDEACFB', 'BEADFCG', 'EADBCGF'],
 	correctIndex: 0
-	]
 }, {
 	question: "The short extensions of the staff used to represent notes that are above, below, or in the notes of the treble and bass clefs are called:",
 	answers: ['Ledger Lines', 'Octave Lines', 'Crescendo Lines', 'Expansion Lines'],
@@ -48,92 +47,122 @@ state.questArray = [
 	correctIndex: 2
 }, {
 	question: "A musical scale containing five notes is a:",
-	answers: ['Major Scale', 'Pentatonic Scale', 'Minor Scale', 'Diminished Scale']
+	answers: ['Major Scale', 'Pentatonic Scale', 'Minor Scale', 'Diminished Scale'],
 	correctIndex: 1
 }, {
 	question: "When 'a tempo' is indicated on the music page the performer:",
-	answers: ['speeds up the tempo', 'ignores indicated tempo', 'returns to orignal tempo', 'determines the tempo']
-	correctIndex:
+	answers: ['speeds up the tempo', 'ignores indicated tempo', 'returns to orignal tempo', 'determines the tempo'],
+	correctIndex: 2
 }, {
 	question: "The following is an example of which type of scale: A B C D E F G# A",
-	answers: ['Major', 'Natural Minor', 'Dorian', 'Harmonic Minor']
+	answers: ['Major', 'Natural Minor', 'Dorian', 'Harmonic Minor'],
 	correctIndex: 3
 }, {
 	question: "Which one of the following is NOT a form of minor scale:",
-	answers: ['Melodic Minor', 'Harmonic Minor', 'Chromatic Minor', 'Natural Minor']
+	answers: ['Melodic Minor', 'Harmonic Minor', 'Chromatic Minor', 'Natural Minor'],
 	correctIndex: 2
 }, {
 	question: "The quality of a chord built on the third degree of a major scale is:",
-	answers: ['Diminished', 'Major', 'Minor', 'Augmented']
+	answers: ['Diminished', 'Major', 'Minor', 'Augmented'],
 	correctIndex: 2
 }, {
 	question: "D.C. al Fine means to:",
-	answers: ['End the song immediately', 'Return to the beginning and end at Fine', 'Return to Fine and play to the end', 'None of the above']
+	answers: ['End the song immediately', 'Return to the beginning and end at Fine', 'Return to Fine and play to the end', 'None of the above'],
 	correctIndex: 1
 }, {
 	question: "Which of the following tempos means 'walking speed'?",
-	answers: ['Moderato', 'Andante', 'Allegro', 'Largo']
+	answers: ['Moderato', 'Andante', 'Allegro', 'Largo'],
 	correctIndex: 1
 }, {
 	question: "Which of the following terms means to play sweetly?",
-	answers: ['Allargando', 'Rubato', 'Dolce', 'Andante']
+	answers: ['Allargando', 'Rubato', 'Dolce', 'Andante'],
 	correctIndex: 2
 }, {
 	question: "Which of the following terms means solemn and slow?",
-	answers: ['Allegro', 'Andante', 'Dolce', 'Grave']
+	answers: ['Allegro', 'Andante', 'Dolce', 'Grave'],
 	correctIndex: 3
 }, {
 	question: "Cut time is the same as:",
-	answers: ['4/4 Time', '2/4 Time', '2/2 Time', 'None of the Above']
+	answers: ['4/4 Time', '2/4 Time', '2/2 Time', 'None of the Above'],
 	correctIndex: 2
 }, {
 	question: "Which one of the following is NOT a tempo marking?",
-	answers: ['Andante', 'Tenuto', 'Allegro', 'Moderato']
+	answers: ['Andante', 'Tenuto', 'Allegro', 'Moderato'],
 	correctIndex: 1
 }, {
-	question: "The term "ritardando" means to:",
-	answers: ['Gradually speed up', 'Gradually slow down', 'Gradually get louder', 'Gradually get softer']
+	question: "The term 'ritardando' means to:",
+	answers: ['Gradually speed up', 'Gradually slow down', 'Gradually get louder', 'Gradually get softer'],
 	correctIndex: 1
 }, {
-	question: "The term "crescendo" indicates that the music should become gradually:",
-	answers: ['Softer', 'Harsher', 'Faster', 'Louder']
+	question: "The term 'crescendo' indicates that the music should become gradually:",
+	answers: ['Softer', 'Harsher', 'Faster', 'Louder'],
 	correctIndex: 3
 }, {
 	question: "What note serves as the unit of beat in 3/2 time?",
-	answers: ['Whole', 'Half', 'Quarter', 'Eighth']
+	answers: ['Whole', 'Half', 'Quarter', 'Eighth'],
 	correctIndex: 1
 }, {
 	question: "Please select the dynamic symbol associated with fortissimo:",
-	answers: ['f', 'mf', 'ff', 'mp']
+	answers: ['f', 'mf', 'ff', 'mp'],
 	correctIndex: 2
 }, {
 	question: "Playing a series of notes separated or detached is known as:",
-	answers: ['Stucco', 'Stanza', 'Stretto', 'Staccato']
-	correctIndex:
-}
-];
+	answers: ['Stucco', 'Stanza', 'Stretto', 'Staccato'],
+	correctIndex: 3
+}];
 
 //Event listeners
-$(document).ready() {
-	state.questArray=shuffle(state.questArray); 
+$(document).ready( function() {
+	state.questArray=shuffle(); 
 	state.questArray=state.questArray.slice(0,5);
-	displayQuestion(state.questArray, state.curQuestion);
+	displayQuestion();
 
 
 
-	$(.submitButton).click{
-		
-	}
-};
+	$("form").on("click", ".submitAnswer", function(event) {
+			checkAnswer()
+			displayAnswer();
+			$(this).toggleClass("submitAnswer", false);
+			if ((state.curQuestion+1)=>(state.questArray.length)) {
+				$(this).toggleClass("nextQuestion", true);
+			} else {
+				finalDisplay();
+			}
+	});
+
+	$("form").on("click", ".nextQuestion", function(event) {
+		state.curQuestion++;
+		displayQuestion();
+		$(this).toggleClass("submitAnswer", true);
+		$(this).toggleClass("nextQuestion", false);
+
+	});
+
+	$("form").on("click", ".restartQuiz", function(event) {
+		location.reload();
+	});
+});
 
 
 
 //Not yet implemented
-function shuffle(arr) {
-	return arr;
+function shuffle() {
+	return state.questArray;
 };
 
-function displayQuestion(questArray, curQuestion) {
-
+function displayQuestion() {
+	$(".question").text(state.questArray[state.curQuestion].question);
+	$(".A").text(state.questArray[state.curQuestion].answers[0]);
+	$(".B").text(state.questArray[state.curQuestion].answers[1]);
+	$(".C").text(state.questArray[state.curQuestion].answers[2]);
+	$(".D").text(state.questArray[state.curQuestion].answers[3]);
 };
 
+function displayAnswer() {
+};
+
+function checkAnswer() {
+};
+
+function finalDisplay() {
+};
