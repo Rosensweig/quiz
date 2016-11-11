@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Music Theory Quiz</title>
+	<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+<header>
+	<h1>Music Theory Quiz</h1>
+	<h2>Test your knowledge of music theory</h2>
+</header>
+<main>
+	<form>
+		<h3 class="question">Question 1</h3>
+		<ul>
+			<li><input type="radio" name="answer" id="A"></input> <label for="A">(A) First option<label></li>
+			<li><input type="radio" name="answer" id="B"></input> <label for="B">(B) Second option<label></li>
+			<li><input type="radio" name="answer" id="C"></input> <label for="C">(C) Third option<label></li>
+			<li><input type="radio" name="answer" id="D"></input> <label for="D">(D) Fourth option<label></li>
+		</ul>
+		<button type="button" class="submitButton">Submit answer</button>
+	</form>
+	<h4>You've answered <span class="numAnswered">0</span> out of 10 questions so far, and got <span class="numCorrect">0</span> correct.</h4>
+</main>
+
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="scripts/app.js"></script>
+</body>
+</html>
