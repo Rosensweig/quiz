@@ -1,3 +1,29 @@
 ol {
 	list-style-type: upper-latin;
 }
+
+.correct::after {
+	content: "  Good job, that's correct!";
+	font-size: 1.5em;
+}
+
+.correct {
+	color: green;
+}
+
+.green {
+	color: green;
+}
+
+.incorrect {
+	color: red;
+}
+
+.incorrect::after {
+	content: "  That's incorrect. The correct answer is marked in green.";
+	font-size: 1.5em;
+}
+
+span {
+	color: blue;
+}

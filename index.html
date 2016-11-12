@@ -13,14 +13,14 @@
 	<form>
 		<h3 class="question">Question 1</h3>
 		<ol>
-			<li><input type="radio" name="answer" id="A"></input> <label for="A" class="A">First option<label></li>
-			<li><input type="radio" name="answer" id="B"></input> <label for="B" class="B">Second option<label></li>
-			<li><input type="radio" name="answer" id="C"></input> <label for="C" class="C">Third option<label></li>
-			<li><input type="radio" name="answer" id="D"></input> <label for="D" class="D">Fourth option<label></li>
+			<li><input type="radio" name="answer" id="A" value="0"></input> <label for="A" id="A">First option<label></li>
+			<li><input type="radio" name="answer" id="B" value="1"></input> <label for="B" id="B">Second option<label></li>
+			<li><input type="radio" name="answer" id="C" value="2"></input> <label for="C" id="C">Third option<label></li>
+			<li><input type="radio" name="answer" id="D" value="3"></input> <label for="D" id="D">Fourth option<label></li>
 		</ol>
 		<button type="button" class="submitAnswer">Submit answer</button>
 	</form>
-	<h4>You've answered <span class="numAnswered">0</span> out of 10 questions so far, and got <span class="numCorrect">0</span> correct.</h4>
+	<h4>You've answered <span class="numAnswered">0</span> out of <span class="totalQuestions">5</span> questions so far, and got <span class="numCorrect">0</span> correct.</h4>
 </main>
 
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>

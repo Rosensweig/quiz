@@ -10,7 +10,7 @@ state.questArray = [
 	answers: ['FCGDAEB', 'GDEACFB', 'BEADFCG', 'EADBCGF'],
 	correctIndex: 0
 }, {
-	question: "The short extensions of the staff used to represent notes that are above, below, or in the notes of the treble and bass clefs are called:",
+	question: "The short extensions of the staff used to represent notes that are above or below the staff are called:",
 	answers: ['Ledger Lines', 'Octave Lines', 'Crescendo Lines', 'Expansion Lines'],
 	correctIndex: 0
 }, {
@@ -113,27 +113,29 @@ state.questArray = [
 
 //Event listeners
 $(document).ready( function() {
-	state.questArray=shuffle(); 
-	state.questArray=state.questArray.slice(0,5);
+	state.questArray=shuffle(state.questArray); 
+	state.questArray=state.questArray.slice(0,10);
 	displayQuestion();
 
 
 
 	$("form").on("click", ".submitAnswer", function(event) {
-			checkAnswer()
 			displayAnswer();
+			state.curQuestion++;
 			$(this).toggleClass("submitAnswer", false);
-			if ((state.curQuestion+1)=>(state.questArray.length)) {
+			if ((state.curQuestion)<(state.questArray.length)) {
 				$(this).toggleClass("nextQuestion", true);
+				$(this).text("Next Question");
 			} else {
-				finalDisplay();
+				$(this).toggleClass("restartQuiz", true);
+				$(this).text("Restart Quiz");
 			}
 	});
 
 	$("form").on("click", ".nextQuestion", function(event) {
-		state.curQuestion++;
 		displayQuestion();
 		$(this).toggleClass("submitAnswer", true);
+		$(this).text("Submit Answer");
 		$(this).toggleClass("nextQuestion", false);
 
 	});
@@ -146,23 +148,43 @@ $(document).ready( function() {
 
 
 //Not yet implemented
-function shuffle() {
-	return state.questArray;
-};
+function shuffle(questArray) {
+ 	var i = 0;
+ 	j= 0;
+ 	temp = null;
+
+  	for (i = questArray.length - 1; i > 0; i -= 1) {
+    	j = Math.floor(Math.random() * (i + 1));
+    	temp = questArray[i];
+		questArray[i] = questArray[j];
+		questArray[j] = temp;
+	}
+	return questArray;
+}
 
 function displayQuestion() {
+	$("label").removeClass();
+	$("input:checked").removeAttr("checked");
 	$(".question").text(state.questArray[state.curQuestion].question);
-	$(".A").text(state.questArray[state.curQuestion].answers[0]);
-	$(".B").text(state.questArray[state.curQuestion].answers[1]);
-	$(".C").text(state.questArray[state.curQuestion].answers[2]);
-	$(".D").text(state.questArray[state.curQuestion].answers[3]);
+	$("label#A").text(state.questArray[state.curQuestion].answers[0]);
+	$("label#B").text(state.questArray[state.curQuestion].answers[1]);
+	$("label#C").text(state.questArray[state.curQuestion].answers[2]);
+	$("label#D").text(state.questArray[state.curQuestion].answers[3]);
 };
 
 function displayAnswer() {
+	if ($("input:checked").val()==state.questArray[state.curQuestion].correctIndex) {
+		$("input:checked").siblings("label").toggleClass("correct", true);
+		state.numCorrect+=1;
+	} else {
+		$("input:checked").siblings("label").toggleClass("incorrect", true);
+		$("input[value="+state.questArray[state.curQuestion].correctIndex+"]").siblings("label").toggleClass("green", true);
+	};
+	displayProgress();
 };
 
-function checkAnswer() {
-};
-
-function finalDisplay() {
+function displayProgress() {
+	$(".numAnswered").text(state.curQuestion+1);
+	$(".numCorrect").text(state.numCorrect);
+	$(".totalQuestions").text(state.questArray.length);
 };
